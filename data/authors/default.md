@@ -1,16 +1,16 @@
 ---
-name: Tails Azimuth
-avatar: /static/images/avatar.png
-occupation: Professor of Atmospheric Science
-company: Stanford University
-email: address@yoursite.com
-twitter: https://twitter.com/Twitter
-linkedin: https://www.linkedin.com
-github: https://github.com
+name: Maicon Oliveira
+avatar: /static/images/eu.png
+occupation: FullStack Developer
+company: FIAP
+email: maiiconoliveira_@hotmail.com
+linkedin: https://www.linkedin.com/in/maicon-alves-de-oliveira-526698203/
+github: https://github.com/maicxn
 ---
 
-Tails Azimuth is a professor of atmospheric sciences at the Stanford AI Lab. His research interests includes complexity modelling of tailwinds, headwinds and crosswinds.
+Maicon Oliveira, 18 anos.
 
-He leads the clean energy group which develops 3D air pollution-climate models, writes differential equation solvers, and manufactures titanium plated air ballons. In his free time he bakes raspberry pi.
+Desenvolvedor Front End Júnior, cursando Sistemas da informação.
+Técnico em Desenvolvimento de Sistemas pela Etec Albert Einstein e estudante da Faculdade de Informática e Administração Paulista - FIAP.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
+Apaixonado pelo São Paulo Futebol Clube e um grande degustador de Refrigerante Fanta Laranja.

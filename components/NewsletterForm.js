@@ -36,8 +36,8 @@ const NewsletterForm = ({ title = 'Subscribe to the newsletter' }) => {
 
   return (
     <div>
-      <div className="pb-1 text-lg font-semibold text-gray-800 dark:text-gray-100">{title}</div>
-      <form className="flex flex-col sm:flex-row" onSubmit={subscribe}>
+      {/* <div className="pb-1 text-lg font-semibold text-gray-800 dark:text-gray-100">{title}</div> */}
+      {/* <form className="flex flex-col sm:flex-row" onSubmit={subscribe}>
         <div>
           <label className="sr-only" htmlFor="email-input">
             Email address
@@ -65,7 +65,7 @@ const NewsletterForm = ({ title = 'Subscribe to the newsletter' }) => {
             {subscribed ? 'Thank you!' : 'Sign up'}
           </button>
         </div>
-      </form>
+      </form> */}
       {error && (
         <div className="w-72 pt-2 text-sm text-red-500 dark:text-red-400 sm:w-96">{message}</div>
       )}
