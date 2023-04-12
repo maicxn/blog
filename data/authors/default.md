@@ -1,7 +1,7 @@
 ---
 name: Maicon Oliveira
 avatar: /static/images/eu.png
-occupation: FullStack Developer
+occupation: Front End Developer
 company: TIMEWARE, FIAP
 email: maiiconoliveira_@hotmail.com
 linkedin: https://www.linkedin.com/in/maicon-alves-de-oliveira-526698203/
