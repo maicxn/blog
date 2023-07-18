@@ -1,0 +1,100 @@
+---
+title: 'using zustand & global states'
+date: '2023-04-20'
+tags: ['React', 'Next']
+draft: false
+summary: 'using zustand for global state versioning in next js'
+---
+
+# Slices Pattern
+
+Your store can become bigger and bigger and tougher to maintain as you add more features.
+
+You can divide your main store into smaller individual stores to achieve modularity. This is simple to accomplish in Zustand!
+
+## Using in React component
+
+```
+import { wishListStore } from '@/store'
+import { useState } from 'react'
+
+export default function Home() {
+  const [wish, setWish] = useState("")
+
+  const wishList = wishListStore()
+
+  return (
+    <div>
+      wishes: {wishList.wishes.length}
+      <input type="text" value={wish} onChange={(e: any) =>setWish(e.target.value)} />
+      <button onClick={() => wishList.createWish(wish)}>Submit</button>
+
+      <div>
+        {wishList.wishes.map(i => <>
+          <p>{i}</p>
+          <br />
+        </>
+        )}
+      </div>
+    </div>
+  )
+}
+```
+
+## Update multiple stores
+
+```
+import { create, type StateCreator } from "zustand";
+import { persist } from 'zustand/middleware'
+
+
+interface WishSlice {
+wishes: string[],
+owner: string,
+createWish: (wish: string) => void
+}
+const wishSlice: StateCreator<
+WishSlice & RatingSlice,
+[],
+[],
+WishSlice
+> = (set) => ({
+ wishes: [],
+ owner: '',
+ createWish(wish) {
+   set(({wishes}) => ({
+    wishes: [...wishes, wish]
+   }))
+ },
+});
+
+interface RatingSlice {
+  rating: number,
+  updateRating: (type: 'increase' | 'decrease') => void,
+}
+
+const ratingSlice: StateCreator<
+WishSlice & RatingSlice,
+[],
+[],
+RatingSlice
+> = (set) => ({
+rating: 0,
+updateRating(type) {
+  const ratings = {
+    increase: set(({rating}) => ({ rating: rating + 1 })),
+    decrease:set(({rating}) => ({ rating: rating - 1 }))
+  }
+  return ratings[type]
+},
+});
+
+export const wishListStore = create<WishSlice & RatingSlice>()(persist(
+  (...a) => ({
+    ...wishSlice(...a),
+    ...ratingSlice(...a)
+  }), {
+    name: "wishes"
+  })
+);
+```

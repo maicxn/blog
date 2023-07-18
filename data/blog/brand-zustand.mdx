@@ -1,0 +1,116 @@
+---
+title: 'Brand Zustand'
+date: '2023-04-21'
+tags: ['React', 'Next', 'Jest']
+draft: false
+summary: 'Using zustand in a store for global states'
+---
+
+# Brand Zustand
+
+Using zustand in a store for global states.
+
+## Store
+
+Home selecting the products chosen by the user
+![Home](https://raw.githubusercontent.com/maicxn/brand-zustand/main/Home.png)
+
+## Shop
+
+Cart with products selected by the user where zustand was used for global states
+![Shop](https://raw.githubusercontent.com/maicxn/brand-zustand/main/shop.png)
+
+### Cart Store
+
+From now on, let's get to the code.
+
+using zustand, we will create our store for our cart!
+
+```
+import create from 'zustand';
+import produce, { original } from 'immer';
+
+export const useCartStore = create(set => {
+  const setState = fn => set(produce(fn));
+
+  const initialState = {
+    open: false,
+    products: [],
+  };
+
+  return {
+    state: {
+      ...initialState,
+    },
+    actions: {
+      toggle: () =>
+        setState(({ state }) => {
+          state.open = !state.open;
+        }),
+      add: product =>
+        setState(({ state }) => {
+          if (!original(state.products).includes(product)) {
+            state.products.push(product);
+          }
+          state.open = true;
+        }),
+      remove: product =>
+        setState(({ state }) => {
+          const index = original(state.products).indexOf(product);
+          if (index > -1) {
+            state.products.splice(index, 1);
+          }
+        }),
+      removeAll: () =>
+        setState(({ state }) => {
+          state.products = [];
+        }),
+      reset: () => set({ state: { ...initialState } }),
+    },
+  };
+});
+```
+
+### Using the Store in the App
+
+Now, just make the call and implement it the way you want!
+
+```
+import { useCartStore } from '../store/cart';
+function MyApp({ Component, pageProps }) {
+  const { toggle } = useCartStore(store => store.actions);
+
+  return (
+    <button onClick={() => toggle()} className="text-gray-600 focus:outline-none mx-4 sm:mx-0"/>
+  )
+}
+```
+
+### Add and remove product from cart actions
+
+```
+import { useCartStore } from '../store/cart';
+export default function Cart() {
+  const { open, products } = useCartStore(store => store.state);
+  const { toggle, removeAll } = useCartStore(store => store.actions);
+  return (
+    <div
+      className={`${
+        !open ? 'hidden' : ''
+      } fixed right-0 top-0 max-w-xs w-full h-full px-6 py-4 transition duration-300 transform overflow-y-auto bg-white border-l-2 border-gray-300`}
+    >
+      <div className="flex items-center justify-between">
+        <h3 className="text-2xl font-medium text-gray-700">Your cart</h3>
+        {products.length > 0 ? <button onClick={() => removeAll()}>Clear cart</button> : null}
+        <button onClick={() => toggle()} className="text-gray-600 focus:outline-none">
+        </button>
+      </div>
+      <hr className="my-3" />
+      {products.map(product => (
+        <CartItem product={product} key={product.id} />
+      ))}
+    </div>
+  )
+}
+
+```

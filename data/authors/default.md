@@ -1,6 +1,6 @@
 ---
 name: Maicon Oliveira
-avatar: /static/images/eu.png
+avatar: /static/images/perfil.jpeg
 occupation: Front End Developer
 company: TIMEWARE, FIAP
 email: maiiconoliveira_@hotmail.com
