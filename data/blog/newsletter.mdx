@@ -32,46 +32,46 @@ Newsletter
 
 3. **Next API Routes:** Criamos uma API Route para lidar com as requisições de assinatura. Essa rota recebe os dados do formulário, os valida e os envia para o banco de dados Supabase.
 
-````typescript
-import { createClient } from "@supabase/supabase-js";
-import { NextApiRequest, NextApiResponse } from "next";
+```typescript
+import { createClient } from '@supabase/supabase-js'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 const httpStatus = {
   Success: 200,
   BadRequest: 400,
   InternalServerError: 500,
   NotFound: 404,
-};
+}
 
 const controllerByMethod = {
   async POST(req: NextApiRequest, res: NextApiResponse) {
-    console.log(req.body.emailNewsletter);
-    const email = req.body.emailNewsletter;
+    console.log(req.body.emailNewsletter)
+    const email = req.body.emailNewsletter
 
-    if (!Boolean(email) || !email.includes("@")) {
+    if (!Boolean(email) || !email.includes('@')) {
       res.status(httpStatus.BadRequest).json({
-        message: "Você precisa enviar um email válido. Ex: teste@teste.com ",
-      });
-      return;
+        message: 'Você precisa enviar um email válido. Ex: teste@teste.com ',
+      })
+      return
     }
 
-    res.status(httpStatus.Success).json({ message: "Post Request" });
+    res.status(httpStatus.Success).json({ message: 'Post Request' })
   },
-};
-
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const controller = controllerByMethod[req.method];
-  if (!controller) {
-    res.status(httpStatus.NotFound).json("Nada encontrado aqui :(");
-    return;
-  }
-  if (controller) {
-    controller(req, res);
-    return;
-  }
-  controller(req, res);
 }
 
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  const controller = controllerByMethod[req.method]
+  if (!controller) {
+    res.status(httpStatus.NotFound).json('Nada encontrado aqui :(')
+    return
+  }
+  if (controller) {
+    controller(req, res)
+    return
+  }
+  controller(req, res)
+}
+```
 
 4. **Integração com SendGrid:** Após salvar os dados no Supabase, utilizamos a API do SendGrid para enviar uma confirmação de assinatura para o e-mail do usuário.
 
@@ -117,7 +117,7 @@ const controllerByMethod = {
     } catch {
       res.status(httpStatus.BadRequest).json({
         message: "Falhamos em envi
-
+```
 
 ## Fluxo de Funcionamento
 
@@ -130,4 +130,7 @@ const controllerByMethod = {
 4. **Envio de E-mail:** Após salvar os dados, a aplicação utiliza a API do SendGrid para enviar um e-mail de confirmação para o usuário, garantindo que a assinatura foi bem-sucedida.
 
 Com essa abordagem, conseguimos criar um portfólio simples e eficaz, proporcionando aos usuários uma maneira fácil de se manterem atualizados sobre as últimas novidades e projetos.
-````
+
+```
+
+```
