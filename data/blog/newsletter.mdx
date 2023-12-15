@@ -1,0 +1,125 @@
+# Portfólio Simples com Newsletter usando Next API Routes
+
+Neste projeto, desenvolvemos um portfólio simples com a funcionalidade de newsletter, implementado utilizando Next.js e aproveitando a poderosa capacidade de envio de e-mails do SendGrid, além de armazenar os dados dos assinantes em um banco de dados Supabase.
+
+## Tecnologias Utilizadas
+
+- **Next.js:** Escolhemos o Next.js como framework devido à sua facilidade de uso, eficiência e suporte para API Routes, que nos permite criar endpoints personalizados de forma simples.
+
+- **SendGrid:** Para a funcionalidade de newsletter, integramos o SendGrid, um serviço confiável para envio de e-mails transacionais. Isso nos permite notificar os assinantes sobre atualizações no portfólio de maneira eficaz.
+
+- **Supabase:** Utilizamos o Supabase como nosso banco de dados, aproveitando sua facilidade de configuração e API RESTful. Armazenamos informações dos assinantes, como nome e e-mail, para gerenciar a lista de contatos de forma segura e escalável.
+
+## Estrutura do Projeto
+
+1. **Página Inicial:** Criamos uma página simples para exibir o portfólio.
+
+Home Portfólio
+![Home](https://raw.githubusercontent.com/maicxn/Newsletter-nextAPI/main/_data/assets/newsletter.png)
+
+2. **Newsletter Component:** Implementamos um componente de assinatura que coleta nome e e-mail do usuário.
+
+Newsletter
+![Home](https://raw.githubusercontent.com/maicxn/Newsletter-nextAPI/main/_data/assets/cadastro_email.png)
+
+3. **Next API Routes:** Criamos uma API Route para lidar com as requisições de assinatura. Essa rota recebe os dados do formulário, os valida e os envia para o banco de dados Supabase.
+
+````typescript
+import { createClient } from "@supabase/supabase-js";
+import { NextApiRequest, NextApiResponse } from "next";
+
+const httpStatus = {
+  Success: 200,
+  BadRequest: 400,
+  InternalServerError: 500,
+  NotFound: 404,
+};
+
+const controllerByMethod = {
+  async POST(req: NextApiRequest, res: NextApiResponse) {
+    console.log(req.body.emailNewsletter);
+    const email = req.body.emailNewsletter;
+
+    if (!Boolean(email) || !email.includes("@")) {
+      res.status(httpStatus.BadRequest).json({
+        message: "Você precisa enviar um email válido. Ex: teste@teste.com ",
+      });
+      return;
+    }
+
+    res.status(httpStatus.Success).json({ message: "Post Request" });
+  },
+};
+
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  const controller = controllerByMethod[req.method];
+  if (!controller) {
+    res.status(httpStatus.NotFound).json("Nada encontrado aqui :(");
+    return;
+  }
+  if (controller) {
+    controller(req, res);
+    return;
+  }
+  controller(req, res);
+}
+
+
+4. **Integração com SendGrid:** Após salvar os dados no Supabase, utilizamos a API do SendGrid para enviar uma confirmação de assinatura para o e-mail do usuário.
+
+```typescript
+import sendGridMail from "@sendgrid/mail";
+
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_KEY;
+const dbClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const httpStatus = {
+  Success: 200,
+  BadRequest: 400,
+  InternalServerError: 500,
+  NotFound: 404,
+};
+
+const controllerByMethod = {
+  async POST(req: NextApiRequest, res: NextApiResponse) {
+    console.log(req.body.emailNewsletter);
+    const email = req.body.emailNewsletter;
+
+    if (!Boolean(email) || !email.includes("@")) {
+      res.status(httpStatus.BadRequest).json({
+        message: "Você precisa enviar um email válido. Ex: teste@teste.com ",
+      });
+      return;
+    }
+
+    await dbClient
+      .from("newsletter_users")
+      .insert({ email: email, optin: true });
+    await dbClient.auth.admin.createUser({ email: email });
+
+    try {
+      sendGridMail.setApiKey(process.env.SENDGRID_KEY);
+      await sendGridMail.send({
+        to: "maiconkelbert@gmail.com",
+        from: "maiiconoliveira_@hotmail.com",
+        subject: "Título",
+        html: "Conteúdo",
+      });
+    } catch {
+      res.status(httpStatus.BadRequest).json({
+        message: "Falhamos em envi
+
+
+## Fluxo de Funcionamento
+
+1. **Usuário acessa o site:** Ao acessar o site, o usuário visualiza o portfólio e a opção de assinatura da newsletter.
+
+2. **Assinatura:** O usuário preenche o formulário de assinatura com seu nome e e-mail.
+
+3. **API Route:** A API Route do Next.js recebe os dados do formulário, valida-os e os salva no banco de dados Supabase.
+
+4. **Envio de E-mail:** Após salvar os dados, a aplicação utiliza a API do SendGrid para enviar um e-mail de confirmação para o usuário, garantindo que a assinatura foi bem-sucedida.
+
+Com essa abordagem, conseguimos criar um portfólio simples e eficaz, proporcionando aos usuários uma maneira fácil de se manterem atualizados sobre as últimas novidades e projetos.
+````
