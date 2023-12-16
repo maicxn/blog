@@ -115,8 +115,13 @@ const controllerByMethod = {
         html: "Conteúdo",
       });
     } catch {
-      res.status(httpStatus.BadRequest).json({
-        message: "Falhamos em envi
+     res.status(httpStatus.BadRequest).json({
+        message: "Falhamos em enviar seu email!!",
+      });
+    }
+
+    res.status(httpStatus.Success).json({ message: "Post Request" });
+  },
 ```
 
 ## Fluxo de Funcionamento
