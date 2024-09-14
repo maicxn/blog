@@ -16,7 +16,7 @@ Optei por utilizar exclusivamente o componente `<Input />` fornecido pelo ShadCN
 
 Começando pelas props do componente, defini uma propriedade chamada `maskName`:
 
-```
+```typescript
 interface CustomInputProps {
   maskName?: 'contact_phone' | 'zip_code' // outros tipos de máscaras
 }
@@ -30,7 +30,7 @@ Agora, é necessário utilizar o evento `onChange` e passar a função de másca
 
 Por isso, optei por associar o evento `onChange` ao componente `<FormControl>`:
 
-```
+```typescript
 export const CustomInput = ({ defaultValue, registerName, icon: Icon, textlabel }) => {
   const { setValue } = useFormContext()
 
@@ -66,14 +66,13 @@ export const CustomInput = ({ defaultValue, registerName, icon: Icon, textlabel 
     </FormItem>
   )
 }
-
 ```
 
 Para integrar o componente ao formulário do Shadcn é simples: basta importá-lo dentro da tag `<Form>` e configurar suas propriedades conforme necessário. Assim, podemos aproveitar as funcionalidades oferecidas pelo React Hook Form e pelo Zod Schema.
 
 Aqui está o resultado obtido após validar a máscara de telefone:
 
-```
+```typescript
 <Form {...form}>
   <form className="mt-2 flex w-full flex-col" onSubmit={onSubmit}>
     <CustomInput control={form.control} />
@@ -92,7 +91,6 @@ Aqui está o resultado obtido após validar a máscara de telefone:
     <CustomTextarea control={form.control} />
   </form>
 </Form>
-
 ```
 
 E aqui está o resultado obtido após validar a máscara de telefone.
