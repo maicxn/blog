@@ -8,29 +8,29 @@ summary: 'Implementando aquilo que ainda não foi desenvolvido pela lib'
 
 ## Implementação de Máscara no Campo de Telefone com Next.js
 
-Você sabia que uma simples máscara pode melhorar significativamente a experiência do usuário em formulários online? Neste artigo, exploro a implementação de uma máscara para o campo de telefone em um projeto Next.js, destacando como essa abordagem pode facilitar a entrada de dados e reduzir erros. Para lidar com a validação do formulário, estou utilizando React Hook Form, Zod, e para criar e estilizar os componentes Shadcn/ui e Tailwind.
+Você sabia que uma simples máscara pode melhorar significativamente a experiência do usuário em formulários online? Neste artigo, exploro a implementação de uma máscara para o campo de telefone em um projeto Next.js, destacando como essa abordagem pode facilitar a entrada de dados e reduzir erros. Para lidar com a validação do formulário, estou utilizando React Hook Form, Zod, e para criar e estilizar os componentes Shadcn/UI e Tailwind.
 
-O Shadcn é uma excelente escolha para formulários, pois se integra muito bem com o React Hook Form. Embora sua documentação apresente exemplos bem definidos, até então não havia nenhum exemplo com utilização de máscaras. Diante dessa necessidade, busquei criar uma solução que atendesse ao meu objetivo.
+O ShadCN é uma excelente escolha para formulários, pois se integra muito bem com o React Hook Form. Embora sua documentação apresente exemplos bem definidos, até então não havia nenhum exemplo com utilização de máscaras. Diante dessa necessidade, busquei criar uma solução que atendesse ao meu objetivo.
 
-Optei por utilizar exclusivamente o componente `<Input />` fornecido pelo Shadcn/UI e adicionar os estilos necessários para atender às especificações do projeto. No entanto, considerando a repetição dos inputs em diversos formulários, decidi criar um componente chamado `<CustomInput />`. Esse componente encapsula a lógica de integração com o Shadcn e permite configurar as propriedades necessárias de forma centralizada para atender aos requisitos do projeto.
+Optei por utilizar exclusivamente o componente `<Input />` fornecido pelo ShadCN/UI e adicionar os estilos necessários para atender às especificações do projeto. No entanto, considerando a repetição dos inputs em diversos formulários, decidi criar um componente chamado `<CustomInput />`. Esse componente encapsula a lógica de integração com o ShadCN e permite configurar as propriedades necessárias de forma centralizada para atender aos requisitos do projeto.
 
 Começando pelas props do componente, defini uma propriedade chamada `maskName`:
 
-```typescript
+```
 interface CustomInputProps {
-  maskName?: 'contact_phone' | 'zip_code' // outros tipos de masrcaras
+  maskName?: 'contact_phone' | 'zip_code' // outros tipos de máscaras
 }
 ```
 
 Essa abordagem oferece controle sobre o tipo de máscara fornecida, permitindo uma configuração flexível dos inputs de acordo com diferentes formatos. Além disso, se o input não precisar de máscara, basta não passar esse valor. É importante ressaltar que estamos lidando apenas com a máscara, enquanto o controle sobre o tipo de valor inserido será garantido pelo esquema do Zod.
 
-Dentro da função phoneMask, realizo a chamada da função de máscara normalizePhoneNumber, garantindo que o formato definido pelo campo seja aplicado corretamente. Se houver mais de um tipo de máscara disponível, podemos usar uma condição para determinar qual função de máscara deve ser chamada, garantindo assim a aplicação correta da máscara para cada situação específica.
+Dentro da função `phoneMask`, realizo a chamada da função de máscara `normalizePhoneNumber`, garantindo que o formato definido pelo campo seja aplicado corretamente. Se houver mais de um tipo de máscara disponível, podemos usar uma condição para determinar qual função de máscara deve ser chamada, garantindo assim a aplicação correta da máscara para cada situação específica.
 
-Agora, é necessário utilizar o evento onChange e passar a função de máscara para ser monitorada. No entanto, ao atribuir diretamente o evento onChange ao componente <Input /> do Shadcn/UI, surgiam conflitos com as funcionalidades internas do React Hook Form, que também verificavam o input
+Agora, é necessário utilizar o evento `onChange` e passar a função de máscara para ser monitorada. No entanto, ao atribuir diretamente o evento `onChange` ao componente `<Input />` do Shadcn/UI, surgiam conflitos com as funcionalidades internas do React Hook Form, que também verificavam o input.
 
-Por isso, optei por associar o evento onChange ao componente <FormControl>:
+Por isso, optei por associar o evento `onChange` ao componente `<FormControl>`:
 
-```typescript
+```
 export const CustomInput = ({ defaultValue, registerName, icon: Icon, textlabel }) => {
   const { setValue } = useFormContext()
 
@@ -66,13 +66,14 @@ export const CustomInput = ({ defaultValue, registerName, icon: Icon, textlabel 
     </FormItem>
   )
 }
+
 ```
 
 Para integrar o componente ao formulário do Shadcn é simples: basta importá-lo dentro da tag <Form> e configurar suas propriedades conforme necessário. Assim, podemos aproveitar as funcionalidades oferecidas pelo React Hook Form e pelo Zod Schema.
 
 Aqui está o resultado obtido após validar a máscara de telefone:
 
-```typescript
+```
 <Form {...form}>
   <form className="mt-2 flex w-full flex-col" onSubmit={onSubmit}>
     <CustomInput control={form.control} />
@@ -91,6 +92,7 @@ Aqui está o resultado obtido após validar a máscara de telefone:
     <CustomTextarea control={form.control} />
   </form>
 </Form>
+
 ```
 
 E aqui está o resultado obtido após validar a máscara de telefone.
