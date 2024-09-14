@@ -2,7 +2,7 @@ const siteMetadata = {
   // system, dark or light
   title: 'Blog Pessoal',
   author: 'Maicon Oliveira',
-  description: 'Front End Developer',
+  description: 'Software Developer',
   language: 'pt-BR',
   theme: 'system', // system, dark or light
   email: 'maiiconoliveira_@hotmail.com',
