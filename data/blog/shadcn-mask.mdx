@@ -1,5 +1,5 @@
 ---
-title: "ShadCN:'Máscara em formulários do shadcn/ui"
+title: 'ShadCN: Máscara em formulários do shadcn/ui'
 date: '2024-09-13'
 tags: ['Next', 'typescript']
 draft: false
@@ -42,37 +42,27 @@ export const CustomInput = ({ defaultValue, registerName, icon: Icon, textlabel 
 
   return (
     <FormItem>
-      <FormControl
-        {...{ control }}
-        name={registerName}
-        render={({ field }) => (
-          <>
-            <FormItem className="group space-y-0">
-              <FormLabel htmlFor={registerName} className="text-sm text-sky-500">
-                {textlabel}
-              </FormLabel>
-              <div className="relative flex items-center">
-                <div className="absolute ml-2 text-slate-100">
-                  <Icon className="size-5 stroke-1" />
-                </div>
-                <FormControl onChange={phoneMask}>
-                  <Input
-                    defaultValue={defaultValue}
-                    id={registerName}
-                    data-mask={maskName}
-                    placeholder={placeholder}
-                    {...field}
-                    type={type}
-                    autoComplete="off"
-                    className="border-slate-500 bg-slate-700 focus:outline-none"
-                  />
-                </FormControl>
-              </div>
-            </FormItem>
-            <FormMessage className="pt-1 text-xs font-normal text-rose-400" />
-          </>
-        )}
-      />
+      <FormControl>
+        <FormLabel htmlFor={registerName} className="text-sm text-sky-500">
+          {textlabel}
+        </FormLabel>
+        <div className="relative flex items-center">
+          <div className="absolute ml-2 text-slate-100">
+            <Icon className="size-5 stroke-1" />
+          </div>
+          <Input
+            defaultValue={defaultValue}
+            id={registerName}
+            data-mask={maskName}
+            placeholder={placeholder}
+            onChange={phoneMask}
+            type={type}
+            autoComplete="off"
+            className="border-slate-500 bg-slate-700 focus:outline-none"
+          />
+        </div>
+        <FormMessage className="pt-1 text-xs font-normal text-rose-400" />
+      </FormControl>
     </FormItem>
   )
 }
