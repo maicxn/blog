@@ -12,4 +12,4 @@ Maicon Oliveira, 19 anos, Desenvolvedor Full-Stack.
 
 Técnico em Desenvolvimento de Sistemas pela Escola Técnica Estadual de São Paulo, cursando Sistemas da Informação na Faculdade de Informática e Administração Paulista - FIAP e Desenvolvedor Full-Stack na Nova Futura Investimentos.
 
-Apaixonado pelo São Paulo Futebol Clube e um grande degustador de Fanta Laranja.
+Apaixonado pelo São Paulo Futebol Clube!
