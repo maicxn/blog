@@ -1,5 +1,5 @@
 ---
-name: Maicon Oliveira
+name: Maicon Oliveiras
 avatar: /static/images/perfil.jpeg
 occupation: Software Developer
 company: FIAP, Nova Futura Investimentos
